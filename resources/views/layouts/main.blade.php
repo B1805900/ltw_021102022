@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{asset('dashboard-template/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('dashboard-template/assets/vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{asset('dashboard-template/assets/css/jquery.toast.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.css"/>
+
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -20,6 +22,11 @@
     <link rel="shortcut icon" href="{{asset('dashboard-template/assets/images/favicon.ico')}}" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
+        a{
+            color:inherit;
+            text-decoration: none;
+
+        }
         td.action button{
             margin-right: 0.5rem;
         }
@@ -66,7 +73,10 @@
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     <script src="{{asset('dashboard-template/assets/js/main.js')}}"></script>
     <script src="{{asset('dashboard-template/assets/js/my-config.js')}}"></script>
-
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.js"></script>
+    <script>
+            // $('.table').dataTable();
+    </script>
 
     @yield('page-js')
     <!-- End custom js for this page -->

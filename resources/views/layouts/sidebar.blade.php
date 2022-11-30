@@ -5,9 +5,9 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item nav-profile">
-        <a href="#" class="nav-link">
+        <a href="{{route('showUserProfile')}}" class="nav-link">
           <div class="nav-profile-image">
-            <img src="{{asset('dashboard-template/assets/images/faces/face1.jpg')}}" alt="profile">
+            <img src="{{asset('images/avatar/'.Auth::user()->avatar)}}" alt="profile">
             <span class="login-status online"></span>
             <!--change to offline or busy as needed-->
           </div>
@@ -19,7 +19,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{route('home')}}">
           <span class="menu-title">Trang chủ</span>
           <i class="mdi mdi-home menu-icon"></i>
         </a>

@@ -16,9 +16,13 @@
       <div class="card-body">
         <form class="forms-sample" method="POST" action="{{route('storeCategory')}}" enctype="multipart/form-data">
             @csrf
+            @isset($category)
+                <input type="hidden" name="idCategory" value="{{$category->id}}">
+            @endisset
           <div class="form-group">
             <label for="exampleInputName1">Tên danh mục</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="" placeholder="Tên danh mục">
+            <input type="text" class="form-control @error('name') is-invalid @enderror"
+            @isset($category) value="{{$category->name}}" @endisset name="name" id="" placeholder="Tên danh mục">
             @error('name')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -27,7 +31,8 @@
           </div>
           <div class="form-group">
             <label for="exampleInputName1">Mô tả danh mục</label>
-            <input type="text" class="form-control @error('desc') is-invalid @enderror" name="desc" id="" placeholder="Mô tả danh mục">
+            <input type="text" class="form-control @error('desc') is-invalid @enderror"
+            @isset($category) value="{{$category->description}}" @endisset name="desc" id="" placeholder="Mô tả danh mục">
             @error('desc')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

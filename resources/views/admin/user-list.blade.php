@@ -18,6 +18,9 @@
                     @elseif (Session::has('fail'))
                         <h4 class="card-title msg text-danger">{{ Session::get('fail') }}</h4>
                     @endif
+                    @php
+                        $roles = App\Models\Role::all();
+                    @endphp
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <a id="" href="{{ route('addCourse') }}"
@@ -26,11 +29,12 @@
                                 <button id="sortUserByRole"
                                     class="btn dropdown-toggle   me-3 btn-block btn-lg btn-gradient-primary "
                                     data-bs-toggle="dropdown"> Vai trò </button>
-                                <div class="dropdown-menu">
+                                <div class="dropdown-menu" id="filter">
                                     <a class="dropdown-item">Tất cả</a>
-                                    <a class="dropdown-item">Quản lý</a>
-                                    <a class="dropdown-item">Thu ngân</a>
-                                    <a class="dropdown-item">Bồi bàn</a>
+                                    @foreach ($roles as $r)
+                                    <a class="dropdown-item">{{$r->role}}</a>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>
@@ -44,7 +48,7 @@
                     </div>
                     <div class="col-lg-12 grid-margin stretch-card">
 
-                        <table class="table  table-striped ">
+                        <table id="data-table" class="table  table-striped ">
                             <thead>
                                 <tr>
                                     <th> ID </th>
@@ -56,7 +60,7 @@
                                     <th> Thao tác </th>
                                 </tr>
                             </thead>
-                            <tbody class="search-table">
+                            <tbody >
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{ $user->id }}</td>

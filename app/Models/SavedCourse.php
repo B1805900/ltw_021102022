@@ -15,6 +15,7 @@ class SavedCourse extends Model
         'id',
         'course_id',
         'user_id',
+        'payment_id',
         'day_saved',
     ];
     public $timestamps = false;

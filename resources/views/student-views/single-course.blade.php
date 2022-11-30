@@ -50,6 +50,10 @@
 </section>
 <!-- search section end -->
 <!-- single course section -->
+                    @php
+                        $saved_courses = App\Models\SavedCourse::all();
+
+                    @endphp
 <section class="single-course spad pb-0">
     <div class="container">
         <div class="course-meta-area">
@@ -73,8 +77,8 @@
                         </div>
                         <div class="course-meta">
                             <div class="cm-info">
-                                <h6>Lượt đăng ký</h6>
-                                <p>120 Registered Students</p>
+                                <h6></h6>
+                                <p>{{$single_course->hasSaves->count()}} Học sinh</p>
                             </div>
                         </div>
                         <div class="course-meta">
@@ -90,8 +94,27 @@
                             </div>
                         </div>
                     </div>
+                    @php
+                        $saved = false;
+                        foreach ($saved_courses as $key => $value) {
+                            if($value->course_id ==$single_course->id && $value->user_id == Auth()->id()){
+                                $saved = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <form action="{{route('pay')}}" method="POST">
+
                     <a href="#" class="site-btn price-btn">Giá: {{$single_course->price}}</a>
-                    <a href="#" class="site-btn buy-btn">Đăng ký khóa học</a>
+                        @csrf
+                        <input type="hidden" name="idCourse" value="{{$single_course->id}}">
+                        <input type="hidden" name="amount" value="{{number_format((float)preg_replace('/[^0-9]/','',$single_course->price)/24855,2,'.','')}}">
+                        <button type="submit" class="site-btn buy-btn @if($saved) d-none @endif" >Mua với PAYPAL <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                        @if($saved)
+                        <button type="button" class="site-btn buy-btn" >Khóa học đã mua <i class="fa fa-check" aria-hidden="true"></i></button>
+                        @endif
+                    </form>
+                    {{-- <a href="#" class="site-btn buy-btn">Đăng ký khóa học</a> --}}
                 </div>
             </div>
         </div>
@@ -118,7 +141,14 @@
 								</div>
 								<div id="collapse{{$lesson->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
 									<div class="panel-body">
-										<p>{{$lesson->desc}}</p>
+                                        <div class="col-lg-6 mb-lg-0">
+
+                                            <p>{{$lesson->desc}}</p>
+                                        </div>
+                                        <div class="col-lg-6 mb-lg-0">
+
+                                            <a href="{{route('showLesson',['idCourse' => $lesson->ofCourse->id,'idLesson' => $lesson->id])}}" class="site-btn">Xem chương</a>
+                                        </div>
 									</div>
 								</div>
 							</div>

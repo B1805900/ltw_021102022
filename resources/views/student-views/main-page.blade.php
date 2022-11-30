@@ -22,7 +22,7 @@
             </div>
             @endforeach
         </div>
-        {{$categories->links()}}
+
     </div>
 </section>
 <!-- categories section end -->
@@ -73,8 +73,8 @@
 <section class="course-section spad">
     <div class="container">
         <div class="section-title mb-0">
-            <h2>Featured Courses</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+            <h2>Danh mục khóa học</h2>
+            <p>Các danh mục khóa học</p>
         </div>
     </div>
     <div class="course-warp">
@@ -85,7 +85,7 @@
             @endforeach
 
         </ul>
-        <div class="row course-items-area">
+        <div class="row  course-items-area">
             @foreach ($courses as $course )
             <!-- course -->
             <div class="mix col-lg-3 col-md-4 col-sm-6 filter{{$course->hasCategory->id}}">
@@ -118,7 +118,7 @@
                             <p>{{$course->desc}}</p>
 
                             <div class="students d-flex justify-content-around">
-                                  <div style="padding: 13px">120 Students</div>
+                                  <div style="padding: 13px">{{$course->hasSaves->count()}} Học sinh</div>
                                   <form action="{{route('pay')}}" method="POST">
                                     @csrf
                                     <input type="hidden" name="idCourse" value="{{$course->id}}">
@@ -153,10 +153,11 @@
             <div class="col-lg-6">
                 <div class="signup-warp">
                     <div class="section-title text-white text-left">
-                        <h2>Sign up to became a teacher</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+                        <h2>Đăng ký để thành giáo viên</h2>
+                        <p>Đăng ký để trở thành giáo viên và đăng tải các khóa học.</p>
                     </div>
-                    <!-- signup form -->
+                    <a href="{{route('register')}}"><button style="background:white;color:#d82a4e;" class="site-btn">Đăng ký</button></a>
+                    {{-- <!-- signup form -->
                     <form class="signup-form">
                         <input type="text" placeholder="Your Name">
                         <input type="text" placeholder="Your E-mail">
@@ -164,7 +165,7 @@
                         <label for="v-upload" class="file-up-btn">Upload Course</label>
                         <input type="file" id="v-upload">
                         <button class="site-btn">Search Couse</button>
-                    </form>
+                    </form> --}}
                 </div>
             </div>
         </div>

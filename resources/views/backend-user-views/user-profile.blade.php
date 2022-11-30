@@ -148,34 +148,25 @@ p {
                                 </div>
                                 <h6 class="f-w-600">{{Auth::user()->name}}</h6>
                                 <p>{{Auth::user()->hasRole->role}}</p>
-                                <a href="{{route('showEditProfile')}}" style="color: inherit !important; "><i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i></a>
+                                <a href="{{route('showEditProfile')}}" style="color: inherit !important; ">Cập nhật thông tin <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i></a>
 
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="card-block">
-                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Thông tin</h6>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <p class="m-b-10 f-w-600">Email</p>
                                         <h6 class="text-muted f-w-400">{{Auth::user()->email}}</h6>
                                     </div>
                                     <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Phone</p>
+                                        <p class="m-b-10 f-w-600">Số điện thoại</p>
                                         <h6 class="text-muted f-w-400">{{Auth::user()->phone}}</h6>
                                     </div>
                                 </div>
                                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Recent</p>
-                                        <h6 class="text-muted f-w-400">Sam Disuja</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Most Viewed</p>
-                                        <h6 class="text-muted f-w-400">Dinoter husainm</h6>
-                                    </div>
-                                </div>
+
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <ul class="social-link list-unstyled m-t-40 m-b-10">

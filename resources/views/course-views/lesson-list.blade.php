@@ -62,19 +62,34 @@
                                     <td>{{$lesson->name}}</td>
                                     <td>{{$lesson->desc}}</td>
                                     <td>{{$lesson->upload_date->format('d-M-Y')}}</td>
-                                    <td><button type="button" title="Quản lý nội dung" id=""
+                                    <td><a href="{{route('editLesson',['idCourse' =>$course->id,'idLesson' => $lesson->id])}}"
+                                        >
+                                        <button type="button" title="Quản lý nội dung" id=""
                                         data-toggle="tooltip" data-placement="top"
                                         class="btn act-user-btn tooltip-r btn-gradient-success btn-rounded btn-icon">
-                                        <a href=""
-                                            style="color: inherit;"><i class="mdi mdi-library-plus"></i></a>
-                                    </button></td>
+                                        <i class="mdi mdi-library-plus"></i>
+                                    </button></a>
+                                    <a  href="{{route('editLesson',['idCourse' =>$course->id,'idLesson' => $lesson->id])}}"
+                                        >
+                                        <button type="button" title="Chỉnh sửa khóa học" id=""
+                                        data-toggle="tooltip" data-placement="top"
+                                        class="btn act-user-btn tooltip-r btn-gradient-warning btn-rounded btn-icon">
+                                        <i class="mdi mdi-pencil"></i>
+                                    </button></a>
+                                    <a onclick="return confirm('Bạn có muốn xóa chương này?')" href="{{route('deleteLesson',['id' => $lesson->id])}}"
+                                        >
+                                        <button type="button" title="Xóa chương" id=""
+                                        data-toggle="tooltip" data-placement="top"
+                                        class="btn act-user-btn tooltip-r btn-gradient-danger btn-rounded btn-icon">
+                                        <i class="mdi mdi-trash-can"></i>
+                                    </button></a>
+                                </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
 
                     </div>
-                    {{$lessons->links()}}
                 </div>
             </div>
         </div>

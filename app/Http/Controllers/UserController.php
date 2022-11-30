@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SavedCourse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
@@ -106,6 +107,7 @@ class UserController extends Controller
 
     }
     public function studentLogin(Request $request){
+
         $request->validate([
             'email' =>'required',
             'password' =>'required|min:8'
@@ -113,8 +115,8 @@ class UserController extends Controller
             'email.required' => 'Bạn chưa nhập email',
             'password.required' => 'Bạn chưa nhập mật khẩu'
         ]);
-        $credentials = $request->except(['_token']);
 
+        $credentials = $request->except(['_token']);
         if(auth()->check() && (auth()->user()->status == 2)){
             Auth::logout();
 
@@ -171,8 +173,8 @@ class UserController extends Controller
 
     public function MyAccount(){
         $wishListItems = Wishlist::where('user_id', '=',Auth::id())->get();
-
-        return view('student-views.account',compact('wishListItems'));
+        $saved_courses = SavedCourse::where('user_id',Auth::id())->get();
+        return view('student-views.account',compact('wishListItems','saved_courses'));
     }
 
 }

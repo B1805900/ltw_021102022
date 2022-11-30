@@ -11,7 +11,7 @@ class Course extends Model
     use HasApiTokens, HasFactory;
     protected $primaryKey = 'id';
     public $timestamps = false;
-    protected $dates = ['upload_date'];
+    protected $dates = ['upload_date','upload_date'];
     protected $fillable = [
         'id',
         'name',
@@ -22,6 +22,7 @@ class Course extends Model
         'status',
         'image',
         'upload_date',
+        'update_date'
     ];
     public function hasCategory(){
         return $this->hasOne(Category::class,'id','category_id');
@@ -32,4 +33,8 @@ class Course extends Model
     public function hasLessons(){
         return $this->hasMany(Lesson::class,'course_id','id');
     }
+    public function hasSaves(){
+        return $this->hasMany(SavedCourse::class,'course_id','id');
+    }
+
 }

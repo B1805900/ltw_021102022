@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\SavedCourse;
 use Omnipay\Omnipay;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
 {
@@ -19,8 +20,11 @@ class PaymentController extends Controller
         $this->gateway->setTestMode(true);
     }
     public function pay(Request $request){
+        if(!Auth::check()) return redirect()->back()->with('error', 'Đăng nhập để mua khóa học');
+        Session::put('course_id', $request->idCourse);
         try{
             $response = $this->gateway->purchase(array(
+
                 'amount' => $request->amount,
                 'currency' => env('PAYPAL_CURRENCY'),
                 'returnUrl' => route('success'),
@@ -61,10 +65,12 @@ class PaymentController extends Controller
                 if($payment_id){
 
                     SavedCourse::create([
-                        'course_id' =>  $payment_id,
+                        'course_id' => Session::get('course_id'),
+                        'payment_id' => $payment_id,
                         'user_id' => Auth::id(),
                         'day_saved' => now(),
                     ]);
+
                 }
                 return redirect()->route('showMainPage')->with('success',"Thanh toán thanh công. Mã giao dịch của bạn là : " . $arr['id']);
             }

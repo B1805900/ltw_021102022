@@ -28,7 +28,11 @@
  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  <![endif]-->
-
+        <style>
+            a{
+                color: inherit;
+            }
+        </style>
 </head>
 <body>
     <!-- Page Preloder -->
@@ -71,6 +75,7 @@
     <!-- Header section end -->
 
     @yield('page-content')
+    @if (!Auth::check())
 
     <!-- banner section -->
     <section class="banner-section spad">
@@ -81,11 +86,12 @@
                     scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
             </div>
             <div class="text-center pt-5">
-                <a href="{{ route("showRegisterStudent") }}"   class="site-btn">Register Now</a>
+                <a href="{{ route("showRegisterStudent") }}"   class="site-btn">Đăng ký làm học viên</a>
             </div>
         </div>
     </section>
     <!-- banner section end -->
+    @endif
 
 
     <!-- footer section -->
@@ -182,7 +188,34 @@
 <script >
 $(document).ready(function(){
     $.toast({
-    text: "Thành công!", // Text that is to be shown in the toast
+    text: "{{Session::get('success')}}", // Text that is to be shown in the toast
+    heading: 'Note', // Optional heading to be shown on the toast
+    icon: 'success', // Type of toast icon
+    showHideTransition: 'fade', // fade, slide or plain
+    allowToastClose: true, // Boolean value true or false
+    hideAfter: 3000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+    stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+    position: 'top-right', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+
+    textAlign: 'left',  // Text alignment i.e. left, right or center
+    loader: true,  // Whether to show loader or not. True by default
+    loaderBg: '#d82a4e',  // Background color of the toast loader
+    beforeShow: function () {}, // will be triggered before the toast is shown
+    afterShown: function () {}, // will be triggered after the toat has been shown
+    beforeHide: function () {}, // will be triggered before the toast gets hidden
+    afterHidden: function () {}  // will be triggered after the toast has been hidden
+});
+})
+
+</script>
+@endif
+@if(Session::has("error"))
+<script >
+$(document).ready(function(){
+    $.toast({
+    text: "{{Session::get('error')}}!", // Text that is to be shown in the toast
     heading: 'Note', // Optional heading to be shown on the toast
     icon: 'success', // Type of toast icon
     showHideTransition: 'fade', // fade, slide or plain

@@ -29,7 +29,7 @@ function formatNumber(nStr, decSeperate, groupSeperate) {
     return x1 + x2;
 }
 
-$('.price').text(formatNumber(700000, '.', ','))
+// $('.price').text(formatNumber(700000, '.', ','))
 
 
 
@@ -41,6 +41,35 @@ $('#avatar-edit-input').on('change', function(event){
       $('#avatar-edit').attr('src',file)
     }
   })
+
+
+
+$(function(){
+    var $rows = $('#data-table tbody tr');
+    $('#filter').children().on('click',function(){
+        let val = $.trim($(this).text()).replace(/ +/g, ' ').toLowerCase();
+        if(val =='tất cả'){
+            val =''
+        }
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    })
+
+    $('.search-input').keyup(function() {
+        let val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+})
+
+
+
+
 
 
 

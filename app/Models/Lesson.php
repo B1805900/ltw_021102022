@@ -10,7 +10,7 @@ class Lesson extends Model
     use HasFactory;
     protected $primaryKey = 'id';
     public $timestamps = false;
-    protected $dates = ['upload_date'];
+    protected $dates = ['upload_date','update_date'];
     protected $fillable = [
         'id',
         'course_id',
@@ -18,8 +18,9 @@ class Lesson extends Model
         'desc',
         'content',
         'upload_date',
+        'update_date',
     ];
     public function ofCourse(){
-        return $this->belongsTo(Course::class,'course_id','id');
+        return $this->hasOne(Course::class,'id','course_id');
     }
 }

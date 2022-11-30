@@ -68,31 +68,29 @@
 										<table class="table p-1 m-3 table-striped">
                                             <thead>
                                               <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">First</th>
-                                                <th scope="col">Last</th>
-                                                <th scope="col">Handle</th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Tên khóa học</th>
+                                                <th scope="col">Ngày đăng ký</th>
+                                                <th scope="col">Thao tác</th>
+
                                               </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($saved_courses as $course)
+
+
                                               <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
+                                                <th scope="row">{{$course->id}}</th>
+                                                <td>{{$course->ofCourse->name}}</td>
+                                                <td>{{$course->day_saved->format('d-m-y')}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success mr-1 rounded-circle" data-toggle="tooltip" data-placement="top" title="Xem khóa học">
+                                                        <a style="color:inherit" href="{{route('showSingleCourse',['idCourse' => $course->course_id])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                                                      </button>
+                                                </td>
                                               </tr>
-                                              <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                              </tr>
-                                              <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                              </tr>
+                                              @endforeach
                                             </tbody>
                                           </table>
 									</div>

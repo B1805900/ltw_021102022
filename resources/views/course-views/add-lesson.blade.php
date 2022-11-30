@@ -17,9 +17,14 @@
                 <p class="card-description"></p>
                 <form class="forms-sample" method="POST" action="{{route('storeLesson',['idCourse' => $course->id])}}">
                     @csrf
+                    @isset($lesson)
+                    <input type="hidden" name="idLesson" value="{{$lesson->id}}">
+                    @endisset
                     <div class="form-group">
                       <label for="exampleInputName1">Tên chương</label>
-                      <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="exampleInputName1" placeholder="Tên chương">
+                      <input type="text" class="form-control @error('name') is-invalid @enderror"
+                      @isset($lesson) value="{{$lesson->name}}" @endisset
+                      name="name" id="exampleInputName1" placeholder="Tên chương">
                       @error('name')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -28,7 +33,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">Mô tả ngắn</label>
-                      <textarea type="text" name="desc" class="form-control @error('desc') is-invalid @enderror" rows="2" id="" placeholder="Mô tả ngắn chương"></textarea>
+                      <textarea type="text" name="desc" class="form-control @error('desc') is-invalid @enderror" rows="2" id="" placeholder="Mô tả ngắn chương">@isset($lesson){{$lesson->desc}}@endisset</textarea>
                       @error('desc')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -37,7 +42,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleTextarea1">Nội dung chương</label>
-                      <textarea name="content" class="form-control @error('content') is-invalid @enderror" id="ckeditor" rows="4"></textarea>
+                      <textarea name="content" class="form-control @error('content') is-invalid @enderror" id="ckeditor" rows="4">@isset($lesson){{$lesson->content}}@endisset</textarea>
                       @error('content')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

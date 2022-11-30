@@ -6,6 +6,8 @@
 	<meta name="description" content="WebUni Education Template">
 	<meta name="keywords" content="webuni, education, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 	<!-- Favicon -->
 	<link href="{{asset('mainpage-template/img/favicon.ico')}}" rel="shortcut icon"/>
 
@@ -54,9 +56,8 @@
 					<nav class="main-menu">
 						<ul>
 							<li><a href="{{route('showMainPage')}}">Home</a></li>
-							<li><a href="#">About us</a></li>
-							<li><a href="courses.html">Khóa học</a></li>
-							<li><a href="blog.html">WishList</a></li>
+							<li><a href="#">Về chúng tôi</a></li>
+
                             @if(Auth::check())
                             <li> <a   href="{{route('MyAccount')}}">Tài khoản</a></li>
                             @endif
@@ -73,15 +74,15 @@
 	<section class="hero-section set-bg" data-setbg="{{asset('mainpage-template/img/bg.jpg')}}">
 		<div class="container">
 			<div class="hero-text text-white">
-				<h2>Get The Best Free Online Courses</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla <br> dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+				<h2>Khám phá những khóa học online</h2>
+				<p>Đăng ký để có thể truy cập những khóa học online thuận tiện chỉ bằng nút nhấn.</p>
 			</div>
             @if (!Auth::user())
             <div class="row">
 				<div class="col-lg-10 d-flex justify-content-center offset-lg-1">
 					<form class="intro-newslatter">
 
-						<button type="button" onclick="window.location='{{ route("showRegisterStudent") }}'" class="site-btn">Sign Up Now</button>
+						<button type="button" onclick="window.location='{{ route("showRegisterStudent") }}'" class="site-btn">Đăng ký</button>
 
 					</form>
 				</div>
@@ -100,8 +101,8 @@
 	<section class="banner-section spad">
 		<div class="container">
 			<div class="section-title mb-0 pb-2">
-				<h2>Join Our Community Now!</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+				<h2>Tham gia cộng đồng ngay bây giờ</h2>
+				<p>Đăng ký để trở thành học viên và thêm các khóa học vào yêu thích.</p>
 			</div>
 			<div class="text-center pt-5">
 				<a href="#" onclick="window.location='{{ route("showRegisterStudent") }}'" class="site-btn">Register Now</a>
@@ -250,10 +251,17 @@ $(document).ready(function(){
     beforeHide: function () {}, // will be triggered before the toast gets hidden
     afterHidden: function () {}  // will be triggered after the toast has been hidden
 });
+
+
 })
 
 </script>
 @endif
+<script>
+$(document).ready(function(){
+  $(".carousel").owlCarousel();
+});
+</script>
     @yield('page-js')
 </body>
     </html>

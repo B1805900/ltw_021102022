@@ -14,9 +14,15 @@
       <div class="card-body">
         <form class="forms-sample" method="POST" action="{{route('storeCourse')}}" enctype="multipart/form-data" >
             @csrf
+            @isset($course)
+            <input type="hidden" name="idCourse" value="{{$course->id}}">
+
+            @endisset
             <div class="form-group">
               <label for="exampleInputName1">Tên khóa học</label>
-              <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="exampleInputName1" value="{{old('name')}}" placeholder="Tên khóa học">
+              <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+              @isset($course) value="{{$course->name}}" @endisset
+              id="exampleInputName1" value="{{old('name')}}" placeholder="Tên khóa học">
               @error('name')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -43,7 +49,9 @@
                 <select name="category" class="form-control @error('category') is-invalid @enderror" id="selectCategory">
                   <option value="" selected disabled>Chọn danh mục khóa học</option>
                   @foreach ($categories as $cat )
-                  <option value="{{$cat->id}}">{{$cat->name}}</option>
+                  <option @isset($course)
+                  @if( $course->hasCategory->id == $cat->id) selected @endif
+                  @endisset  value="{{$cat->id}}">{{$cat->name}}</option>
                   @endforeach
                 </select>
                 @error('category')
@@ -54,7 +62,9 @@
               </div>
             <div class="form-group">
               <label for="inputPrice">Giá (VND)</label>
-              <input type="text" class="form-control @error('price') is-invalid @enderror price" name="price" id="inputPrice" placeholder="Giá">
+              <input type="text" class="form-control @error('price') is-invalid @enderror price"
+              @isset($course) value="{{$course->price}}" @endisset
+              name="price" id="inputPrice" placeholder="Giá">
               @error('price')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -64,7 +74,8 @@
 
             <div class="form-group">
               <label for="exampleInputPassword4">Mô tả ngắn</label>
-              <textarea name="desc" value="{{old('desc')}}" class="form-control @error('desc') is-invalid @enderror" id="exampleTextarea1" rows="4"></textarea>
+              <textarea name="desc" value="{{old('desc')}}" class="form-control @error('desc') is-invalid @enderror" id="exampleTextarea1" rows="4">@isset($course){!!($course->desc)!!}@endisset
+            </textarea>
               @error('desc')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

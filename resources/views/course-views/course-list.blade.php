@@ -18,6 +18,9 @@
                     @elseif (Session::has('fail'))
                         <h4 class="card-title msg text-danger">{{ Session::get('fail') }}</h4>
                     @endif
+                    @php
+                        $categories = App\Models\Category::all();
+                    @endphp
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <a id="" href="{{ route('addCourse') }}"
@@ -25,18 +28,18 @@
                             <div class="btn-group">
                                 <button id="sortUserByRole"
                                     class="btn dropdown-toggle   me-3 btn-block btn-lg btn-gradient-primary "
-                                    data-bs-toggle="dropdown"> Vai trò </button>
-                                <div class="dropdown-menu">
+                                    data-bs-toggle="dropdown"> Danh mục </button>
+                                <div class="dropdown-menu " id="filter">
                                     <a class="dropdown-item">Tất cả</a>
-                                    <a class="dropdown-item">Quản lý</a>
-                                    <a class="dropdown-item">Thu ngân</a>
-                                    <a class="dropdown-item">Bồi bàn</a>
+                                    @foreach ($categories as $cat)
+                                    <a class="dropdown-item">{{$cat->name}}</a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 ">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="searchUserInput" placeholder="Nhập gì đó..."
+                                <input type="text" class="form-control search-input" id="searchUserInput" placeholder="Nhập gì đó..."
                                     aria-label="Nhập gì đó..." aria-describedby="basic-addon2">
                                 <button class="btn btn-sm btn-gradient-primary" type="button"> Tìm Kiếm </button>
                             </div>
@@ -44,7 +47,7 @@
                     </div>
                     <div class="col-lg-12 grid-margin stretch-card">
 
-                        <table class="table table-striped">
+                        <table id="data-table" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th> ID </th>
@@ -58,7 +61,7 @@
                                     <th> Thao tác </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                                 @foreach ($courses as $course)
                                     <tr>
                                         <td>{{ $course->id }}</td>
@@ -70,12 +73,22 @@
                                         <td> {{ $course->upload_date->format('d-M-Y') }} </td>
                                         <td> {{ $course->hasOwner->name ? $course->hasOwner->name : '' }} </td>
                                         <td>
+                                            <a href="{{ route('editCourse', ['id' => $course->id]) }}"
+                                                >
+                                            <button type="button" title="Chỉnh sửa thông tin" id=""
+                                                data-toggle="tooltip" data-placement="top"
+                                                class="btn act-user-btn tooltip-r btn-gradient-success btn-rounded btn-icon">
+                                                <i class="mdi mdi-eye"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{{ route('showAllLesson', ['id' => $course->id]) }}"
+                                            >
                                             <button type="button" title="Quản lý nội dung" id=""
                                                 data-toggle="tooltip" data-placement="top"
                                                 class="btn act-user-btn tooltip-r btn-gradient-success btn-rounded btn-icon">
-                                                <a href="{{ route('showAllLesson', ['id' => $course->id]) }}"
-                                                    style="color: inherit;"><i class="mdi mdi-library-plus"></i></a>
+                                                <i class="mdi mdi-library-plus"></i>
                                             </button>
+                                        </a>
                                         </td>
                                     </tr>
                                 @endforeach

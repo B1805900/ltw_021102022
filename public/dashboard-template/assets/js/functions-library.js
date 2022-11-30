@@ -111,15 +111,7 @@ function reloadUserList(data){
     })
 }
 
-$(document).ready(function(){
-    $(".search-input").keyup(function(){
-        let value = $('.search-input').val().toLowerCase();
-        $(".search-table tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    })
 
-})
 
 
 

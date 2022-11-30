@@ -16,7 +16,7 @@ class CheckLocked
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->check() && (auth()->user()->status == 2 ) &&  (auth()->user()->id_role == 3)){
+        if(auth()->check() && (auth()->user()->status == 2 )){
             Auth::logout();
 
             $request->session()->invalidate();

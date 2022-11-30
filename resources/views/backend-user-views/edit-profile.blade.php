@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-gradient-primary me-2">Xác nhận</button>
-                        <button class="btn btn-light">Hủy</button>
+                        <button type="button" onclick="window.history.go(-1); return false;" class="btn btn-light">Hủy</button>
                     </form>
                 </div>
             </div>

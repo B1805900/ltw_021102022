@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\SavedCourse;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
@@ -24,13 +25,27 @@ class CoursesController extends Controller
     public function addCategory(){
         return view('course-views.add-category',);
     }
+    public function editCategory($idCategory){
+        $category = Category::find($idCategory);
+        return view('course-views.add-category',compact('category'));
+    }
     public function addCourse(){
-        $categories = Category::paginate();
+        $categories = Category::all();
         return view('course-views.add-course',compact('categories'));
+    }
+    public function editCourse($idCourse){
+        $categories = Category::all();
+        $course = Course::find($idCourse);
+        return view('course-views.add-course',compact('categories','course'));
     }
     public function addLesson($id){
         $course = Course::find($id);
         return view('course-views.add-lesson',compact('course'));
+    }
+    public function editLesson($idCourse,$idLesson){
+        $course = Course::find($idCourse);
+        $lesson = Lesson::find($idLesson);
+        return view('course-views.add-lesson',compact('course','lesson'));
     }
     public function showAllLesson($id){
         $course = Course::find($id);
@@ -40,7 +55,37 @@ class CoursesController extends Controller
 
 
     public function storeCategory(Request $request){
-        
+        if($request->idCategory){
+            $request->validate([
+                'name' => 'required|max:255',
+                'img' => '|max:10000',
+                'desc' => 'required|min:30'
+            ],[
+                'name.required' => 'Tên danh mục không được bỏ trống',
+                'name.unique' => 'Tên danh mục đã được tạo',
+                'img.max' => 'File ảnh quá lớn',
+                'desc.required' => 'Mô tả danh mục không được để trống',
+                'desc.min' => 'Mô tả ít nhất 30 ký tự'
+            ]
+        );
+            if($request->hasFile('img')){
+                $file = $request->file('img') ;
+                $fileName = $file->hashName() ;
+                $destinationPath = public_path().'/images/categories';
+                $file->move($destinationPath,$fileName);
+                $img = Category::where('id',$request->idCategory)->update([
+                    'image' => $fileName,
+                ]);
+            }
+        $category = Category::where('id',$request->idCategory)->update([
+            'name' => $request->name,
+            'description' => $request->desc,
+        ]);
+            return redirect()->route('showAllCategory')->with('success','Cập nhật danh mục thành công');
+
+
+
+        }
         $request->validate([
             'name' => 'required|max:255|unique:categories,name',
             'img' => 'required|max:10000',
@@ -72,7 +117,41 @@ class CoursesController extends Controller
     }
     }
     public function storeCourse(Request $request){
-      
+        if($request->idCourse){
+            $request->validate([
+                'name' => 'required|max:255',
+                'img' => 'max:10000',
+                'category' => 'required',
+                'price' => 'required',
+                'desc' => 'required|min:30'
+            ],[
+                'name.required' => 'Tên danh mục không được bỏ trống',
+                'name.unique' => 'Tên danh mục đã được tạo',
+                'img.max' => 'File ảnh quá lớn',
+                'desc.required' => 'Mô tả danh mục không được để trống',
+                'desc.min' => 'Mô tả ít nhất 30 ký tự'
+            ]
+        );
+        if($request->hasFile('img')){
+            $file = $request->file('img') ;
+            $fileName = $file->hashName() ;
+            $destinationPath = public_path().'/images/courses';
+            $file->move($destinationPath,$fileName);
+            $img = Course::where('id',$request->idCourse)->update([
+                'image' => $fileName,
+            ]);
+        }
+        $course = Course::where('id',$request->idCourse)->update([
+            'name' => $request->name,
+            'category_id' => $request->category,
+            'price' => $request->price,
+            'desc' => $request->desc,
+            'update_date' => Carbon::now(),
+        ]);
+
+        return redirect()->route('showAllCourse')->with('success','Sửa thông tin khóa học thành công');
+
+    }
         $request->validate([
             'name' => 'required|unique:courses,name|max:255',
             'category' => 'required',
@@ -99,10 +178,10 @@ class CoursesController extends Controller
 		//exit;
         $file = $request->file('img') ;
         $fileName = $file->hashName() ;
-        
+
         $destinationPath = public_path().'/images/courses';
         $file->move($destinationPath,$fileName);
-       
+
         $course = Course::create([
             'name' => $request->name,
             'category_id' => $request->category,
@@ -122,6 +201,24 @@ class CoursesController extends Controller
     }
 
     public function storeLesson($idCourse, Request $request){
+        if($request->idLesson){
+            $request->validate([
+                'name' => 'required',
+                'desc' => 'required',
+                'content' => 'required',
+            ],[
+                'name.required' => 'Tên chương học không được trống',
+                'desc.required' => 'Mô tả chương học không được để trống',
+                'content.required' => 'Nội dung chương học không được để trống',
+            ]);
+            Lesson::where('id',$request->idLesson)->update([
+                'name' => $request->name,
+                'desc' => $request->desc,
+                'content' => $request->content,
+                'update_date' => Carbon::now(),
+            ]);
+            return redirect()->route('showAllLesson',['id' => $idCourse])->with('success','Sửa thông tin chương học thành công');
+        }
         $request->validate([
             'name' => 'required',
             'desc' => 'required',
@@ -145,8 +242,14 @@ class CoursesController extends Controller
         }
     }
 
+    public function deleteLesson($idLesson){
+        Lesson::find($idLesson)->delete();
+        return redirect()->back()->with('success','Xóa chương thành công');
+    }
+//----------------------------------------------------------------
+// Trang chủ học viên
     public function showMainPage(){
-        $categories = Category::paginate(6);
+        $categories = Category::all();
         $courses = Course::all();
         return view('student-views.main-page',compact('categories','courses'));
 
@@ -157,21 +260,20 @@ class CoursesController extends Controller
         ->where('courses.name','like',"%$request->course_name%")
         ->where('categories.id','=',$request->category_id)
         ->get(['courses.*','categories.name as categoryName' ]);
-        $categories = Category::paginate(6);
+        $categories = Category::all();
         $courses = Course::all();
         return view('student-views.courses-searched',compact('categories','courses','courses_searched'));
     }
 
     public function showSingleCourse($idCourse){
         $single_course = Course::find($idCourse);
-        $categories = Category::paginate(6);
+        $categories = Category::all();
 
         return view('student-views.single-course',compact('categories','single_course'));
     }
 
     public function addToWishList($idCourse){
-
-        $idUser = Auth::id();
+        if(!Auth::check()) return redirect()->back()->with('error','Hãy đăng nhập để tiếp tục');
         $create = Wishlist::create([
             'course_id' => $idCourse,
             'user_id' => Auth::id()
@@ -187,5 +289,20 @@ class CoursesController extends Controller
         Wishlist::find($id)->delete();
         return redirect()->back()->with("success","Xóa thành công");
     }
+
+    public function showLesson($idCourse,$idLesson){
+        $categories = Category::all();
+        $saved_courses = SavedCourse::where([
+            'course_id'=>$idCourse,
+            'user_id'=>Auth::id()
+        ])->first();
+        $lesson = Lesson::find($idLesson);
+        if(!$saved_courses){
+            return redirect()->back()->with('error','Bạn chưa mua khóa học này');
+        }
+        return view('student-views\lesson-page',compact('categories','saved_courses','lesson'));
+    }
+
+
 
 }

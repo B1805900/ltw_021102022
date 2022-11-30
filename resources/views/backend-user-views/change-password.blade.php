@@ -54,7 +54,7 @@
                         <div class="form-group row">
                           <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Nhập lại mật khẩu</label>
                           <div class="col-sm-9">
-                            <input type="password" name="password_confirmation" class="form-control" id="exampleInputConfirmPassword2" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+                            <input type="password" name="new_password_confirmation" class="form-control" id="exampleInputConfirmPassword2" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
                           </div>
                         </div>
 
